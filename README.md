@@ -1,4 +1,5 @@
 # firebaseTestApp
 Test application based on Firebase 
 
-#### I can get and put my pojo object onto Firebase Cloud.
+#### What I can do in this app
+I can get and put my pojo object onto Firebase Cloud.
