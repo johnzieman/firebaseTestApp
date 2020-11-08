@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,12 +27,13 @@ import java.util.Map;
 
 import ziemansoft.ziemapp.chatterflowtest.adapter.UsersAdapter;
 import ziemansoft.ziemapp.chatterflowtest.pojo.UserId;
+import ziemansoft.ziemapp.chatterflowtest.view.EditTaskActivity;
 
 public class MainActivity extends AppCompatActivity {
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     private RecyclerView recyclerView;
     private UsersAdapter adapter;
-
+    private List<UserId> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         adapter = new UsersAdapter();
         db = FirebaseFirestore.getInstance();
+
 //        UserId userId = new UserId("John", "Zieman", "21", "Male");
 //        UserId userId1 = new UserId("John", "Zieman", "21", "Male");
 //        UserId userId2 = new UserId("John", "Zieman", "21", "Male");
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 //        list.add(userId2);
 //        adapter.setUsers(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
 
 
 //        db = FirebaseFirestore.getInstance();
@@ -88,23 +93,44 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-        UserId userId = new UserId("John", "Zieman", "21", "Male");
-        db.collection("users").add(userId);
+
+//        db.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+//            @Override
+//            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                if (error != null) {
+//                    Log.w("ErrorMessage", error.toString());
+//                }
+//                if (value != null) {
+//                    List<UserId> userIds = value.toObjects(UserId.class);
+//                    adapter.setUsers(userIds);
+//                }
+//            }
+//        });
+//        UserId userId = new UserId("John", "Zieman", "21", "Male");
+//        db.collection("users").add(userId);
+    }
+
+
+    public void addTask(View view) {
+        Intent intent = new Intent(this, EditTaskActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         db.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w("ErrorMessage", error.toString());
+                if(error!=null){
+                    Log.i("ErrorMessage", error.getMessage());
+                    return;
                 }
-                if (value != null) {
-                    List<UserId> userIds = new ArrayList<>();
-                    for (UserId values : value.toObjects(UserId.class)) {
-                        userIds.add(values);
-                    }
-                    adapter.setUsers(userIds);
+                if(value!=null){
+                    list = value.toObjects(UserId.class);
+                    adapter.setUsers(list);
                 }
             }
         });
-        recyclerView.setAdapter(adapter);
     }
 }

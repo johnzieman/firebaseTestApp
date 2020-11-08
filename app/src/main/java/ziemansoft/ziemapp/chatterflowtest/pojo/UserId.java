@@ -3,12 +3,12 @@ package ziemansoft.ziemapp.chatterflowtest.pojo;
 public class UserId {
     private String userName;
     private String userLastName;
-    private String userAge;
+    private int userAge;
     private String userSex;
 
     public UserId(){}
 
-    public UserId(String userName, String userLastName, String userAge, String userSex) {
+    public UserId(String userName, String userLastName, int userAge, String userSex) {
         this.userName = userName;
         this.userLastName = userLastName;
         this.userAge = userAge;
@@ -23,7 +23,7 @@ public class UserId {
         this.userLastName = userLastName;
     }
 
-    public void setUserAge(String userAge) {
+    public void setUserAge(int userAge) {
         this.userAge = userAge;
     }
 
@@ -39,7 +39,7 @@ public class UserId {
         return userLastName;
     }
 
-    public String getUserAge() {
+    public int getUserAge() {
         return userAge;
     }
 

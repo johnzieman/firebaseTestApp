@@ -33,8 +33,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.itemViewHold
         UserId userId = users.get(position);
         holder.userName.setText(userId.getUserName());
         holder.userLastName.setText(userId.getUserLastName());
-        holder.userAge.setText(userId.getUserAge());
-        holder.userAge.setText(userId.getUserSex());
+        holder.userAge.setText(String.format("%d", userId.getUserAge()));
+        holder.userSex.setText(userId.getUserSex());
     }
 
     @Override
